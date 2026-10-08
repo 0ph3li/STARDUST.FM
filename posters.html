@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>posters — STARDUST.FM</title>
+  <meta name="description" content="Affirmation posters: rearrange the wall, make your own flyer in the poster studio and download it, pull the affirmation slot machine.">
+  <meta name="theme-color" content="#ff4fd8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,800;0,900;1,500&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/posters.css">
+</head>
+<body id="top" data-page="posters">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="star" viewBox="0 0 24 24"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ LOADER — tuning in ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-strips"></div>
+    <canvas class="ld-snow" id="ldSnow"></canvas>
+    <div class="ld-inner">
+      <p class="ld-top mono"><span>stardust.fm / posters</span><span id="ldMsg">untangling the antenna</span><span class="ld-air" id="ldAir">on air</span></p>
+      <p class="ld-freq"><span id="ldFreq">87.5</span><small>MHz</small></p>
+      <div class="ld-band"><div class="ld-ticks" id="ldTicks"></div><i class="ld-needle" id="ldNeedle"></i></div>
+    </div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <canvas class="glitter" id="glitter" aria-hidden="true"></canvas>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="topnav" id="topnav">
+    <a class="nav-logo" href="index.html" id="navLogo" aria-label="STARDUST.FM — home">stardust.fm<svg class="nav-star"><use href="#star"/></svg></a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><span data-t="Home">Home</span></a></li>
+        <li><a href="wish.html"><span data-t="Make a wish">Make a wish</span></a></li>
+        <li><a href="radio.html"><span data-t="Radio">Radio</span></a></li>
+        <li><a href="horoscope.html"><span data-t="Horoscope">Horoscope</span></a></li>
+        <li><a href="posters.html" aria-current="page"><span data-t="Posters">Posters</span></a></li>
+      </ul>
+    </nav>
+    <div class="tuner-mini" aria-label="Tuned to">
+      <span class="onair"><i></i>on air</span>
+      <b id="navFreq">88.8</b><span class="mono">MHz</span>
+      <span class="eq"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <a class="pill solid nav-cta" href="#studio" data-magnetic data-cursor="make">Make a poster <span class="arrow">✶</span></a>
+    <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+  </header>
+  <div class="menu" id="menu" aria-hidden="true">
+    <button class="pill menu-close" id="menuClose">close ×</button>
+  </div>
+
+  <main>
+
+    <!-- ============ 00 · THE WALL — drag the posters around ============ -->
+    <section class="wall" id="wall">
+      <div class="wall-title">
+        <p class="kicker">00 · <b>the wall</b></p>
+        <h1 class="p-title" id="pTitle">
+          <span class="line"><span>print.</span></span>
+          <span class="line"><span>pin.</span></span>
+          <span class="line"><span class="soft">believe.</span></span>
+        </h1>
+        <p class="mono wall-hint">drag the posters · double-tap one to make one like it</p>
+      </div>
+      <div class="pgrid wall-grid" data-img="POSTERS/hero.jpg" data-fallback="HORO/hero.jpg" data-focus=".5,.35" data-label="POSTERS/hero.jpg" data-note="portrait, glitter · 3:4"
+           data-map="0110/1111/1111/1111/0110"></div>
+      <div class="wall-posters" id="wallPosters"></div>
+    </section>
+
+    <div class="tape" data-tape>
+      <div class="tape-track">
+        <span>blooming blessing <b>✶</b> find your soul <b>✶</b> too much is perfect <b>✶</b> it's already yours <b>✶</b> soft is a superpower <b>✶</b> glitter is my blood type <b>✶</b></span>
+      </div>
+    </div>
+
+    <!-- ============ 01 · THE POSTER STUDIO ============ -->
+    <section class="studio" id="studio">
+      <div class="st-head">
+        <p class="kicker" data-scramble>01 · <b>the poster studio</b></p>
+        <h2 class="h-big" data-split>make your<br><span class="soft">own flyer.</span></h2>
+      </div>
+
+      <div class="st-body">
+        <div class="st-preview">
+          <canvas id="poster" width="1200" height="1600" aria-label="Your poster preview"></canvas>
+          <div class="st-actions">
+            <button class="pill solid" id="download" data-magnetic data-cursor="save">download png <span class="arrow">↓</span></button>
+            <button class="pill" id="pin" data-magnetic data-cursor="pin">pin it to the wall <span class="arrow">↑</span></button>
+          </div>
+        </div>
+
+        <div class="st-controls">
+          <div class="ctl">
+            <label class="mono" for="affIn">01 · the sentence</label>
+            <div class="aff-row">
+              <input id="affIn" maxlength="44" value="blooming blessing">
+              <button class="round-sm" id="affShuffle" aria-label="Shuffle the sentence" data-cursor="shuffle">↻</button>
+            </div>
+            <button class="text-link" id="affWish" data-cursor="✶">use my last wish</button>
+          </div>
+
+          <div class="ctl">
+            <p class="mono">02 · the layout</p>
+            <div class="seg" id="tplSeg" role="radiogroup" aria-label="Layout"></div>
+          </div>
+
+          <div class="ctl">
+            <p class="mono">03 · the colour</p>
+            <div class="swatches" id="swatches" role="radiogroup" aria-label="Colour"></div>
+          </div>
+
+          <div class="ctl">
+            <p class="mono">04 · the picture</p>
+            <div class="thumbs" id="thumbs"></div>
+            <p class="mono upl-note">your own picture stays in this browser · it's never uploaded anywhere</p>
+          </div>
+
+          <div class="ctl">
+            <p class="mono">05 · the squares</p>
+            <div class="sq-row">
+              <button class="pill" id="mapShuffle" data-cursor="shuffle">new shape ↻</button>
+              <button class="pill" id="mapFull" data-cursor="fill">all squares</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 · THE AFFIRMATION MACHINE ============ -->
+    <section class="slots" id="slots">
+      <div class="slots-copy">
+        <p class="kicker" data-scramble>02 · <b>the affirmation machine</b></p>
+        <h2 class="h-big" data-split>pull the lever,<br><span class="soft">get a sentence.</span></h2>
+        <p class="lead reveal">Three reels, one affirmation. Three of a kind is a jackpot. Whatever comes out, you can send it straight to the studio.</p>
+      </div>
+      <div class="machine">
+        <div class="reels" id="reels">
+          <div class="reel-win"><div class="strip"></div></div>
+          <div class="reel-win"><div class="strip"></div></div>
+          <div class="reel-win"><div class="strip"></div></div>
+        </div>
+        <button class="lever" id="lever" aria-label="Pull the lever" data-cursor="pull"><i></i><b></b></button>
+        <p class="m-result" id="mResult">—</p>
+        <div class="m-actions">
+          <button class="pill solid" id="pull" data-magnetic data-cursor="pull">pull ✶</button>
+          <button class="pill" id="toStudio" data-cursor="send">send to the studio ↑</button>
+        </div>
+        <p class="mono m-count">pulls today: <span id="pulls">0</span> · jackpots: <span id="jackpots">0</span></p>
+      </div>
+    </section>
+
+    <!-- ============ 03 · THE END OF THE BROADCAST ============ -->
+    <section class="p-outro">
+      <div class="pgrid p-outro-grid" data-pop data-img="POSTERS/outro.jpg" data-label="POSTERS/outro.jpg" data-note="night, soft · 1:1"
+           data-map="111/111/111"></div>
+      <div class="p-outro-copy">
+        <p class="kicker" data-scramble>03 · <b>end of the broadcast</b></p>
+        <h2 class="h-big" data-split>that's the whole<br><span class="soft">station. ✶</span></h2>
+        <p class="lead reveal">Five rooms, one frequency. Go round again — the sky changes every day.</p>
+        <nav class="tiles" aria-label="All pages">
+          <a href="index.html" data-cursor="home"><b>01</b><span>home</span><i>✶</i></a>
+          <a href="wish.html" data-cursor="wish"><b>02</b><span>make a wish</span><i>✦</i></a>
+          <a href="radio.html" data-cursor="tune in"><b>03</b><span>radio</span><i>♫</i></a>
+          <a href="horoscope.html" data-cursor="read"><b>04</b><span>horoscope</span><i>☾</i></a>
+        </nav>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER — LED board, schedule, request line ============ -->
+  <footer class="footer">
+    <div class="ft-led"><canvas id="led" role="img" aria-label="LED board: STARDUST.FM, on air 24/7, thank you for listening"></canvas></div>
+    <div class="ft-grid">
+      <div>
+        <p class="ft-kicker">tonight on stardust.fm</p>
+        <ol class="schedule" id="schedule"></ol>
+        <button class="remind-btn" type="button" data-remind="11:11" data-cursor="⏰">⏰ remind me at 11:11 <span>every day · adds to your calendar</span></button>
+      </div>
+      <div class="ft-request">
+        <p class="ft-kicker">request line</p>
+        <p>dedicate a song, a wish, a person.<br>it'll scroll up there, in lights.</p>
+        <form id="requestForm" class="request-row no-burst" autocomplete="off">
+          <label for="requestIn" class="sr-only">Your dedication</label>
+          <input id="requestIn" maxlength="40" placeholder="for my best friend ♥">
+          <button type="submit" data-cursor="on air">on air ↑</button>
+        </form>
+        <p class="mono">letters, numbers and ♥ only · 40 max</p>
+      </div>
+      <div>
+        <p class="ft-kicker">index</p>
+        <ul class="ft-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="wish.html">Make a wish</a></li>
+          <li><a href="radio.html">Radio</a></li>
+          <li><a href="horoscope.html">Horoscope</a></li>
+          <li><a href="posters.html">Posters</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© 2026 STARDUST.FM · a fictional radio · <a href="privacy.html">nothing leaves your browser</a></p>
+      <p class="ft-sign">concept, design &amp; code by <span class="script">ghostly.grl</span> ♥</p>
+      <a href="#top" class="rewind" data-cursor="rewind">◀◀ rewind</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/posters.js"></script>
+</body>
+  <!--
+   *    /\_/\      +
+       ( o.o )   <3  ghostly.grl
+   +    > ^ <          *
+-->
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>radio — STARDUST.FM</title>
+  <meta name="description" content="Seven stations synthesised live in your browser. Drag the dial, sing the affirmations, draw a melody with stars and get your own mixtape.">
+  <meta name="theme-color" content="#0d0c0d">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,800;0,900;1,500&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/radio.css">
+</head>
+<body id="top" data-page="radio">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="star" viewBox="0 0 24 24"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ LOADER — tuning in ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-strips"></div>
+    <canvas class="ld-snow" id="ldSnow"></canvas>
+    <div class="ld-inner">
+      <p class="ld-top mono"><span>stardust.fm / radio</span><span id="ldMsg">untangling the antenna</span><span class="ld-air" id="ldAir">on air</span></p>
+      <p class="ld-freq"><span id="ldFreq">87.5</span><small>MHz</small></p>
+      <div class="ld-band"><div class="ld-ticks" id="ldTicks"></div><i class="ld-needle" id="ldNeedle"></i></div>
+    </div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <canvas class="glitter" id="glitter" aria-hidden="true"></canvas>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="topnav" id="topnav">
+    <a class="nav-logo" href="index.html" id="navLogo" aria-label="STARDUST.FM — home">stardust.fm<svg class="nav-star"><use href="#star"/></svg></a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><span data-t="Home">Home</span></a></li>
+        <li><a href="wish.html"><span data-t="Make a wish">Make a wish</span></a></li>
+        <li><a href="radio.html" aria-current="page"><span data-t="Radio">Radio</span></a></li>
+        <li><a href="horoscope.html"><span data-t="Horoscope">Horoscope</span></a></li>
+        <li><a href="posters.html"><span data-t="Posters">Posters</span></a></li>
+      </ul>
+    </nav>
+    <div class="tuner-mini" aria-label="Tuned to">
+      <span class="onair"><i></i>on air</span>
+      <b id="navFreq">88.8</b><span class="mono">MHz</span>
+      <span class="eq"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <a class="pill solid nav-cta" href="wish.html" data-magnetic data-cursor="wish">Make a wish <span class="arrow">✶</span></a>
+    <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+  </header>
+  <div class="menu" id="menu" aria-hidden="true">
+    <button class="pill menu-close" id="menuClose">close ×</button>
+  </div>
+
+  <main>
+
+    <!-- ============ 00 · THE DIAL — drag the whole screen to tune ============ -->
+    <section class="r-hero" id="dialHero">
+      <div class="r-hero-top">
+        <p class="kicker">00 · <b>the dial</b></p>
+        <p class="mono r-hint">drag anywhere to tune · ← → on your keyboard · between stations you'll see the static</p>
+      </div>
+
+      <div class="r-stage">
+        <div class="r-cover" id="rCover" data-img="RADIO/hero.jpg" data-label="RADIO/hero.jpg" data-note="cover, square">
+          <canvas id="coverCv" aria-hidden="true"></canvas>
+          <span class="slot-label" id="coverLabel">RADIO/hero.jpg<small>cover, square</small></span>
+        </div>
+
+        <div class="r-now">
+          <p class="r-freq"><b id="bigFreq">88.8</b><span>MHz</span></p>
+          <p class="r-title" id="bigTitle">blooming blessing</p>
+          <p class="mono r-sub" id="bigSub">for new beginnings · 92 bpm</p>
+          <div class="r-ctrl">
+            <button class="r-play" id="play" aria-label="Play" data-magnetic data-cursor="play"><span id="playIc">▶</span></button>
+            <button class="round" id="prev" aria-label="Previous station" data-cursor="prev">◀◀</button>
+            <button class="round" id="next" aria-label="Next station" data-cursor="next">▶▶</button>
+            <label class="vol mono">vol <input type="range" id="vol" min="0" max="100" value="70" aria-label="Volume"></label>
+          </div>
+          <p class="mono r-signal">signal <span class="sig" id="sig"><i></i><i></i><i></i><i></i><i></i></span> <span id="sigTxt">locked</span></p>
+        </div>
+      </div>
+
+      <div class="band" id="band" aria-hidden="true">
+        <div class="band-ticks" id="bandTicks"></div>
+        <div class="band-st" id="bandSt"></div>
+        <i class="band-needle" id="bandNeedle"></i>
+      </div>
+      <input type="range" class="sr-only" id="dialIn" min="875" max="1080" step="1" value="888" aria-label="Frequency">
+    </section>
+
+    <!-- ============ 01 · SPECTRUM + KARAOKE ============ -->
+    <section class="sing" id="sing">
+      <div class="sing-head">
+        <p class="kicker" data-scramble>01 · <b>sing along</b></p>
+        <p class="mono" id="singState">press play and the words light up on the beat</p>
+      </div>
+      <canvas class="spectrum" id="spectrum" aria-hidden="true"></canvas>
+      <div class="karaoke" aria-live="off">
+        <p class="k-line" id="kLine"></p>
+        <p class="k-next" id="kNext"></p>
+      </div>
+    </section>
+
+    <!-- ============ 02 · THE STAR GRID — draw a melody ============ -->
+    <section class="seq" id="seq">
+      <div class="seq-copy">
+        <p class="kicker" data-scramble>02 · <b>the star grid</b></p>
+        <h2 class="h-big" data-split>draw a melody<br><span class="soft">with stars.</span></h2>
+        <p class="lead reveal">Every square is a note, in the key of whatever station you're on. Paint a few, and they play on top of the radio — through the static too. Or let your wish write the tune.</p>
+        <div class="seq-btns reveal">
+          <button class="pill solid" id="seqMine" data-magnetic data-cursor="✶">play my wish</button>
+          <button class="pill" id="seqShuffle" data-cursor="shuffle">shuffle the stars</button>
+          <button class="pill" id="seqClear" data-cursor="clear">clear</button>
+        </div>
+        <p class="mono seq-wish" id="seqWish"></p>
+      </div>
+      <div class="grid16" id="grid16" role="grid" aria-label="Step grid: 16 steps, 8 notes"></div>
+    </section>
+
+    <!-- ============ 03 · THE STATION GUIDE ============ -->
+    <section class="guide" id="guide">
+      <div class="guide-head">
+        <div>
+          <p class="kicker" data-scramble>03 · <b>the station guide</b></p>
+          <h2 class="h-big" data-split>seven frequencies<br><span class="soft">for seven kinds of wanting.</span></h2>
+        </div>
+        <div class="pgrid guide-grid" data-pop data-img="RADIO/radio.jpg" data-focus=".4,.4" data-label="RADIO/radio.jpg" data-note="profile, lights · 3:2"
+             data-map="01110/11111/11110"></div>
+      </div>
+      <ol class="stations" id="stations"></ol>
+      <div class="st-icon" id="stIcon" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ 04 · THE CASSETTE — your mixtape ============ -->
+    <section class="tape-sec" id="cassette">
+      <div class="cassette-wrap">
+        <div class="cassette" id="cass">
+          <svg viewBox="0 0 400 252" aria-hidden="true">
+            <rect class="c-body" x="2" y="2" width="396" height="248" rx="18"/>
+            <rect class="c-label" x="24" y="22" width="352" height="150" rx="8"/>
+            <rect class="c-stripe" x="24" y="132" width="352" height="16"/>
+            <rect class="c-window" x="104" y="74" width="192" height="58" rx="29"/>
+            <g class="reel" id="reelL"><circle class="r-tape" id="tapeL" cx="148" cy="103" r="26"/><circle class="r-hub" cx="148" cy="103" r="14"/><path class="r-spokes" d="M148 89v28M134 103h28M138 93l20 20M158 93l-20 20"/></g>
+            <g class="reel" id="reelR"><circle class="r-tape" id="tapeR" cx="252" cy="103" r="18"/><circle class="r-hub" cx="252" cy="103" r="14"/><path class="r-spokes" d="M252 89v28M238 103h28M242 93l20 20M262 93l-20 20"/></g>
+            <path class="c-bottom" d="M80 250 L100 196 H300 L320 250"/>
+            <circle class="c-hole" cx="140" cy="226" r="6"/><circle class="c-hole" cx="260" cy="226" r="6"/>
+          </svg>
+          <p class="c-name"><span class="script" id="cassName">mixtape for you</span></p>
+          <p class="c-side mono">side a · stardust.fm · <span id="cassTime">00:00</span></p>
+        </div>
+        <button class="pill" id="eject" data-cursor="eject">⏏ eject</button>
+      </div>
+      <div class="jcard">
+        <p class="kicker" data-scramble>04 · <b>your mixtape</b></p>
+        <h2 class="h-big" data-split>what you<br><span class="soft">listened to.</span></h2>
+        <p class="lead reveal">The station keeps a little tape of your listening, on this device only. The reels turn while you play; the more you listen, the more tape moves from one side to the other.</p>
+        <ol class="jcard-list" id="jList"></ol>
+        <label class="jcard-name mono">name on the label <input id="cassIn" maxlength="18" placeholder="your name"></label>
+      </div>
+    </section>
+
+    <!-- ============ 05 · OUTRO ============ -->
+    <section class="r-outro">
+      <div class="pgrid r-outro-grid" data-pop data-img="RADIO/outro.jpg" data-focus=".55,.35" data-label="RADIO/outro.jpg" data-note="night, glitter · 1:1"
+           data-map="1101/1111/0111/1110"></div>
+      <div>
+        <p class="kicker" data-scramble>05 · <b>thank you for listening</b></p>
+        <h2 class="h-big" data-split>the stars<br><span class="soft">are talking about you.</span></h2>
+        <p class="lead reveal">Today's sky has a message for your sign. It's short. It's rude, sometimes. It's always right.</p>
+        <a class="pill solid" href="horoscope.html" data-magnetic data-cursor="read">read today's sky <span class="arrow">→</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER — LED board, schedule, request line ============ -->
+  <footer class="footer">
+    <div class="ft-led"><canvas id="led" role="img" aria-label="LED board: STARDUST.FM, on air 24/7, thank you for listening"></canvas></div>
+    <div class="ft-grid">
+      <div>
+        <p class="ft-kicker">tonight on stardust.fm</p>
+        <ol class="schedule" id="schedule"></ol>
+        <button class="remind-btn" type="button" data-remind="11:11" data-cursor="⏰">⏰ remind me at 11:11 <span>every day · adds to your calendar</span></button>
+      </div>
+      <div class="ft-request">
+        <p class="ft-kicker">request line</p>
+        <p>dedicate a song, a wish, a person.<br>it'll scroll up there, in lights.</p>
+        <form id="requestForm" class="request-row no-burst" autocomplete="off">
+          <label for="requestIn" class="sr-only">Your dedication</label>
+          <input id="requestIn" maxlength="40" placeholder="for my best friend ♥">
+          <button type="submit" data-cursor="on air">on air ↑</button>
+        </form>
+        <p class="mono">letters, numbers and ♥ only · 40 max</p>
+      </div>
+      <div>
+        <p class="ft-kicker">index</p>
+        <ul class="ft-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="wish.html">Make a wish</a></li>
+          <li><a href="radio.html">Radio</a></li>
+          <li><a href="horoscope.html">Horoscope</a></li>
+          <li><a href="posters.html">Posters</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© 2026 STARDUST.FM · a fictional radio · <a href="privacy.html">nothing leaves your browser</a></p>
+      <p class="ft-sign">concept, design &amp; code by <span class="script">ghostly.grl</span> ♥</p>
+      <a href="#top" class="rewind" data-cursor="rewind">◀◀ rewind</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/radio.js"></script>
+  <script src="js/radio-page.js"></script>
+</body>
+  <!--
+   *    /\_/\      +
+       ( o.o )   <3  ghostly.grl
+   +    > ^ <          *
+-->
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>make a wish — STARDUST.FM</title>
+  <meta name="description" content="The wish composer: write it, translate it into manifest-speak, hold to seal it and watch it join your sky. Plus the seven rules of wishing, magic minutes and a dandelion.">
+  <meta name="theme-color" content="#ff4fd8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,800;0,900;1,500&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/wish.css">
+</head>
+<body id="top" data-page="wish">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="star" viewBox="0 0 24 24"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ LOADER — tuning in ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-strips"></div>
+    <canvas class="ld-snow" id="ldSnow"></canvas>
+    <div class="ld-inner">
+      <p class="ld-top mono"><span>stardust.fm / wish</span><span id="ldMsg">untangling the antenna</span><span class="ld-air" id="ldAir">on air</span></p>
+      <p class="ld-freq"><span id="ldFreq">87.5</span><small>MHz</small></p>
+      <div class="ld-band"><div class="ld-ticks" id="ldTicks"></div><i class="ld-needle" id="ldNeedle"></i></div>
+    </div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <canvas class="glitter" id="glitter" aria-hidden="true"></canvas>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="topnav" id="topnav">
+    <a class="nav-logo" href="index.html" id="navLogo" aria-label="STARDUST.FM — home">stardust.fm<svg class="nav-star"><use href="#star"/></svg></a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><span data-t="Home">Home</span></a></li>
+        <li><a href="wish.html" aria-current="page"><span data-t="Make a wish">Make a wish</span></a></li>
+        <li><a href="radio.html"><span data-t="Radio">Radio</span></a></li>
+        <li><a href="horoscope.html"><span data-t="Horoscope">Horoscope</span></a></li>
+        <li><a href="posters.html"><span data-t="Posters">Posters</span></a></li>
+      </ul>
+    </nav>
+    <div class="tuner-mini" aria-label="Tuned to">
+      <span class="onair"><i></i>on air</span>
+      <b id="navFreq">88.8</b><span class="mono">MHz</span>
+      <span class="eq"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <a class="pill solid nav-cta" href="#composer" data-magnetic data-cursor="write">Write it <span class="arrow">✶</span></a>
+    <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+  </header>
+  <div class="menu" id="menu" aria-hidden="true">
+    <button class="pill menu-close" id="menuClose">close ×</button>
+  </div>
+
+  <main>
+
+    <!-- ============ 00 · HERO — dear universe ============ -->
+    <section class="w-hero" id="hero">
+      <div class="pgrid star-grid" id="starGrid" data-img="WISH/hero.jpg" data-focus=".32,.5" data-label="WISH/hero.jpg" data-note="portrait, eyes closed · 1:1"
+           data-map="0001000/0011100/1111111/0111110/0011100/0110110/1100011"></div>
+
+      <div class="w-hero-txt">
+        <p class="w-script script">dear universe,</p>
+        <h1 class="w-title" id="wTitle">
+          <span class="line"><span>make a wish</span></span>
+          <span class="line"><span class="soft">(properly this time)</span></span>
+        </h1>
+        <ol class="w-steps" id="wSteps">
+          <li><a href="#composer"><b>01</b> write it <small>BY HAND</small></a></li>
+          <li><a href="#composer"><b>02</b> translate it <small>MANIFEST-SPEAK</small></a></li>
+          <li><a href="#composer"><b>03</b> seal it <small>HOLD 3S</small></a></li>
+          <li><a href="#sky"><b>04</b> watch it join your sky <small>LIVE</small></a></li>
+        </ol>
+      </div>
+
+      <div class="w-hero-meta">
+        <p class="moon"><span class="moon-ico" id="moonIco" aria-hidden="true"></span><span><b id="moonName">—</b><br><span class="mono" id="moonTip">—</span></span></p>
+        <p class="mono next-magic">next magic minute <b id="nextMagic">--:--</b> in <b id="nextMagicIn">--:--:--</b></p>
+      </div>
+      <span class="sticker" style="top:20%;left:44%"><svg><use href="#star"/></svg></span>
+      <span class="sticker" style="bottom:18%;right:8%;--s:34px;animation-delay:-1s"><svg><use href="#star"/></svg></span>
+    </section>
+
+    <div class="tape" data-tape>
+      <div class="tape-track">
+        <span>say it like it already happened <b>✶</b> be specific <b>✶</b> the universe is literal <b>✶</b> feel it first <b>✶</b> say thank you in advance <b>✶</b> then let it go <b>✶</b></span>
+      </div>
+    </div>
+
+    <!-- ============ 01 · THE COMPOSER — write, translate, seal ============ -->
+    <section class="composer" id="composer">
+      <div class="cp-head">
+        <p class="kicker" data-scramble>01 · <b>the wish composer</b></p>
+        <h2 class="h-big" data-split>write it like<br><span class="soft">it already happened.</span></h2>
+      </div>
+
+      <div class="cp-body">
+        <article class="letter" id="letter">
+          <p class="letter-date mono" id="letterDate">—</p>
+          <p class="letter-dear script">dear universe,</p>
+          <label for="wishText" class="sr-only">Your wish</label>
+          <textarea id="wishText" maxlength="160" rows="4" placeholder="i want to feel soft and unstoppable, and i want my own studio by the summer…"></textarea>
+          <div class="diff" id="diff" hidden aria-live="polite"></div>
+          <p class="letter-sign"><span class="script">love,</span> <label for="wishName" class="sr-only">Your name</label><input id="wishName" maxlength="20" placeholder="your name"></p>
+          <span class="letter-stamp" aria-hidden="true">✶</span>
+        </article>
+
+        <aside class="cp-side">
+          <div class="clarity">
+            <p class="mono">clarity</p>
+            <p class="clarity-pct"><b id="clarityPct">0</b>%</p>
+            <span class="clarity-bar"><i id="clarityBar"></i></span>
+          </div>
+          <ul class="checks" id="checks">
+            <li data-check="present">present tense <span>“i am”, not “i want”</span></li>
+            <li data-check="specific">specific <span>a when, a where, a number</span></li>
+            <li data-check="feeling">a feeling <span>how will it feel?</span></li>
+            <li data-check="sure">no maybes <span>no “hopefully”, no “someday”</span></li>
+            <li data-check="positive">say what you want <span>not what you don't</span></li>
+          </ul>
+          <button class="pill" id="translate" data-magnetic data-cursor="translate">translate to manifest-speak <span class="arrow">→</span></button>
+
+          <p class="mono cp-label">what kind of wish?</p>
+          <div class="cats" id="cats" role="radiogroup" aria-label="Wish category"></div>
+
+          <div class="seal-wrap">
+            <button class="seal" id="seal" data-cursor="hold" aria-describedby="sealHint">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54"/><circle class="seal-ring" id="sealRing" cx="60" cy="60" r="54"/></svg>
+              <span id="sealLabel">hold to seal</span>
+            </button>
+            <p class="mono" id="sealHint">press and hold · 3 seconds · it's a promise</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ 02 · YOUR SKY — drag to look around ============ -->
+    <section class="mysky" id="sky">
+      <div class="sky-top">
+        <div>
+          <p class="kicker" data-scramble>02 · <b>your sky</b></p>
+          <h2 class="h-big" data-split>every wish<br><span class="soft">is a constellation.</span></h2>
+        </div>
+        <p class="mono sky-stats"><span id="skyMine">0</span> yours · <span id="skyOthers">0</span> from other listeners<br>drag to look around · click a shape to open it</p>
+      </div>
+      <div class="world" id="world" data-cursor="drag">
+        <canvas id="worldCv" role="img" aria-label="A sky with your wishes drawn as constellations"></canvas>
+        <div class="tip" id="tip" hidden></div>
+        <div class="world-hud mono" aria-hidden="true"><span id="worldPos">x 0 · y 0</span><span>pink = yours · white = listeners</span></div>
+      </div>
+      <!-- certificate window -->
+      <div class="win" id="win" hidden role="dialog" aria-label="Wish certificate">
+        <div class="win-bar" id="winBar"><span id="winTitle">certificate.txt</span><span class="win-btns"><button id="winMin" aria-label="Minimise">_</button><button id="winClose" aria-label="Close">×</button></span></div>
+        <div class="win-body">
+          <p class="win-name" id="winName">—</p>
+          <p class="win-wish" id="winWish">—</p>
+          <dl class="win-facts">
+            <div><dt>coordinates</dt><dd id="winCoord">—</dd></div>
+            <div><dt>brightness</dt><dd id="winBright">—</dd></div>
+            <div><dt>arrival</dt><dd id="winEta">—</dd></div>
+            <div><dt>frequency</dt><dd id="winFreq">—</dd></div>
+            <div><dt>signed</dt><dd id="winSigned">—</dd></div>
+          </dl>
+          <a class="pill solid" id="winTune" href="radio.html" data-cursor="tune in">tune in <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 · SEVEN RULES — the cards stack ============ -->
+    <section class="rules" id="rules">
+      <div class="rules-pin">
+        <div class="rules-side">
+          <p class="kicker">03 · <b>the fine print</b></p>
+          <h2 class="rules-title">seven rules<br><span class="soft">of wishing.</span></h2>
+          <p class="rules-count"><b id="ruleN">01</b>/07</p>
+          <div class="pgrid rules-grid" data-img="WISH/rules.jpg" data-focus=".4,.45" data-label="WISH/rules.jpg" data-note="close-up, glitter · 4:3"
+               data-map="1101/0111/1110"></div>
+        </div>
+        <div class="deck-cards" id="ruleCards"></div>
+      </div>
+    </section>
+
+    <!-- ============ 04 · MAGIC MINUTES + DANDELION ============ -->
+    <section class="magic" id="magic">
+      <div class="magic-clock">
+        <p class="kicker" data-scramble>04 · <b>other ways to wish</b></p>
+        <p class="magic-banner" id="magicBanner" hidden>it's a magic minute. <b>wish now ✶</b></p>
+        <p class="clock" id="clock">00:00<span>:00</span></p>
+        <p class="lead">Some minutes are thinner than others. When the clock shows a pattern, the sky leans in. Here are the next ones.</p>
+        <ol class="magic-list" id="magicList"></ol>
+        <button class="pill solid magic-remind" type="button" data-remind="11:11" data-magnetic data-cursor="⏰">remind me every day at 11:11 <span class="arrow">⏰</span></button>
+        <p class="mono magic-note">a calendar file made in your browser · tap ⏰ next to any minute for that one</p>
+      </div>
+      <div class="dandelion">
+        <canvas id="dande" data-cursor="blow" aria-label="A dandelion: move fast over it to blow the seeds away"></canvas>
+        <div class="dande-copy">
+          <p class="mono">or blow a dandelion · move fast over it</p>
+          <p class="dande-count"><b id="seedsLeft">0</b> seeds left</p>
+          <button class="pill" id="regrow" hidden data-magnetic data-cursor="grow">grow another</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 · OUTRO ============ -->
+    <section class="w-outro" id="outro">
+      <div class="pgrid outro-grid" data-pop data-img="WISH/outro.jpg" data-focus=".45,.35" data-label="WISH/outro.jpg" data-note="flash, night · 3:4"
+           data-map="011/111/110/010"></div>
+      <div class="w-outro-txt">
+        <p class="kicker" data-scramble>05 · <b>sent</b></p>
+        <h2 class="h-big" data-split>sent ✶<br><span class="soft">now tune in.</span></h2>
+        <p class="lead reveal">Every wish has a frequency. Yours is waiting on the dial.</p>
+        <a class="pill solid" id="outroTune" href="radio.html" data-magnetic data-cursor="tune in">find my frequency <span class="arrow">→</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER — LED board, schedule, request line ============ -->
+  <footer class="footer">
+    <div class="ft-led"><canvas id="led" role="img" aria-label="LED board: STARDUST.FM, on air 24/7, thank you for listening"></canvas></div>
+    <div class="ft-grid">
+      <div>
+        <p class="ft-kicker">tonight on stardust.fm</p>
+        <ol class="schedule" id="schedule"></ol>
+        <button class="remind-btn" type="button" data-remind="11:11" data-cursor="⏰">⏰ remind me at 11:11 <span>every day · adds to your calendar</span></button>
+      </div>
+      <div class="ft-request">
+        <p class="ft-kicker">request line</p>
+        <p>dedicate a song, a wish, a person.<br>it'll scroll up there, in lights.</p>
+        <form id="requestForm" class="request-row no-burst" autocomplete="off">
+          <label for="requestIn" class="sr-only">Your dedication</label>
+          <input id="requestIn" maxlength="40" placeholder="for my best friend ♥">
+          <button type="submit" data-cursor="on air">on air ↑</button>
+        </form>
+        <p class="mono">letters, numbers and ♥ only · 40 max</p>
+      </div>
+      <div>
+        <p class="ft-kicker">index</p>
+        <ul class="ft-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="wish.html">Make a wish</a></li>
+          <li><a href="radio.html">Radio</a></li>
+          <li><a href="horoscope.html">Horoscope</a></li>
+          <li><a href="posters.html">Posters</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© 2026 STARDUST.FM · a fictional radio · <a href="privacy.html">nothing leaves your browser</a></p>
+      <p class="ft-sign">concept, design &amp; code by <span class="script">ghostly.grl</span> ♥</p>
+      <a href="#top" class="rewind" data-cursor="rewind">◀◀ rewind</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/wish.js"></script>
+</body>
+  <!--
+   *    /\_/\      +
+       ( o.o )   <3  ghostly.grl
+   +    > ^ <          *
+-->
+</html>
