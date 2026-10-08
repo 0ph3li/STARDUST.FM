@@ -1,0 +1,207 @@
+/* =========================================================
+   STARDUST.FM — wish.css
+   ========================================================= */
+
+/* =========================================================
+   00 · HERO — dear universe (a pixel star)
+   ========================================================= */
+.w-hero {
+  position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden;
+  display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; gap: 30px clamp(30px, 5vw, 80px);
+  padding: calc(84px + 2vh) var(--gutter) 34px;
+}
+.star-grid { --c: clamp(40px, min(6.4vw, 9vh), 92px); width: calc(var(--c) * 7); align-self: center; }
+.star-grid i.on { transition: filter .3s, scale .4s var(--ease); }
+.star-grid i.on.flash { filter: brightness(1.5) saturate(1.4); }
+.w-hero-txt { align-self: center; position: relative; z-index: 2; }
+.w-script { margin: 0 0 6px; font-size: clamp(40px, 5vw, 76px); line-height: 1; }
+.w-title { margin: 0 0 40px; font-weight: 500; font-size: clamp(48px, 7vw, 116px); line-height: .9; letter-spacing: -.06em; }
+.w-title .line { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
+.w-title .line > span { display: block; }
+.w-title .soft { letter-spacing: -.03em; }
+.w-steps { list-style: none; margin: 0; padding: 0; }
+.w-steps li { overflow: hidden; border-top: 1.5px solid var(--ink); }
+.w-steps li:last-child { border-bottom: 1.5px solid var(--ink); }
+.w-steps a { display: flex; align-items: baseline; gap: 14px; padding: 8px 0; text-decoration: none; font-size: clamp(19px, 2vw, 28px); letter-spacing: -.045em; transition: padding .5s var(--ease), background .3s, color .3s; }
+.w-steps a b { font-family: var(--pixel); font-weight: 400; font-size: 1.1em; letter-spacing: 0; }
+.w-steps a small { margin-left: auto; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; }
+.w-steps a:hover { padding-left: 14px; background: var(--ink); color: var(--pink); }
+.w-hero-meta { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.moon { margin: 0; display: flex; align-items: center; gap: 12px; font-size: 18px; letter-spacing: -.03em; line-height: 1.1; }
+.moon b { font-weight: 500; }
+.moon-ico { width: 42px; height: 42px; border-radius: 50%; background: var(--ink); position: relative; overflow: hidden; box-shadow: inset 0 0 0 1.5px var(--ink); }
+.moon-ico::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--paper); translate: var(--lit, 0%) 0; }
+.next-magic { margin: 0; text-align: right; }
+.next-magic b { font-family: var(--pixel); font-weight: 400; font-size: 26px; letter-spacing: 0; vertical-align: -.1em; }
+
+/* =========================================================
+   01 · COMPOSER — the letter, the checks, the seal
+   ========================================================= */
+.composer { background: var(--paper); padding: clamp(90px, 11vw, 150px) var(--gutter); }
+.cp-body { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: start; }
+
+.letter {
+  position: relative; padding: 34px clamp(22px, 3vw, 44px) 30px;
+  background:
+    repeating-linear-gradient(transparent 0 38px, rgba(255, 79, 216, .35) 38px 39px) 0 120px / 100% calc(100% - 180px) no-repeat,
+    var(--blush);
+  rotate: -1deg; box-shadow: 0 30px 60px -30px rgba(13, 12, 13, .45);
+  transform-origin: 50% 50%;
+}
+.letter::before { content: ""; position: absolute; left: 64px; top: 0; bottom: 0; width: 1.5px; background: rgba(255, 79, 216, .55); }
+.letter-date { margin: 0 0 6px; text-align: right; }
+.letter-dear { margin: 0 0 6px; font-size: clamp(38px, 4vw, 58px); line-height: 1; }
+.letter textarea {
+  display: block; width: 100%; min-height: 156px; resize: vertical; border: 0; outline: none; background: none;
+  font-family: var(--soft); font-style: italic; font-size: clamp(24px, 2.4vw, 32px); line-height: 39px; letter-spacing: -.01em; color: var(--ink);
+}
+.letter textarea::placeholder { color: rgba(13, 12, 13, .3); }
+.diff { margin: 8px 0 0; padding: 12px 14px; background: var(--paper); font-family: var(--soft); font-style: italic; font-size: 22px; line-height: 1.3; }
+.diff del { color: var(--graphite); text-decoration-color: var(--pink); text-decoration-thickness: 2px; }
+.diff ins { text-decoration: none; background: var(--pink); padding: 0 3px; }
+.diff .mono { display: block; font-style: normal; margin-bottom: 4px; color: var(--graphite); }
+.letter-sign { margin: 22px 0 0; display: flex; align-items: baseline; gap: 10px; justify-content: flex-end; }
+.letter-sign .script { font-size: 36px; line-height: 1; }
+.letter-sign input { width: 180px; border: 0; border-bottom: 1.5px solid var(--ink); background: none; outline: none; font-family: var(--script); font-size: 34px; line-height: 1; }
+.letter-stamp { position: absolute; right: 22px; top: 52px; width: 52px; height: 62px; display: grid; place-items: center; background: var(--pink); color: var(--lime); font-size: 26px; outline: 2px dashed var(--paper); outline-offset: -6px; rotate: 6deg; }
+.letter.shake { animation: shake .5s; }
+@keyframes shake { 20%, 60% { translate: -8px 0; } 40%, 80% { translate: 8px 0; } }
+
+.clarity { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 0 12px; margin-bottom: 12px; }
+.clarity .mono { margin: 0; grid-column: 1 / -1; }
+.clarity-pct { margin: 0; grid-column: 2; grid-row: 2; font-family: var(--pixel); font-size: 64px; line-height: .8; }
+.clarity-pct b { font-weight: 400; }
+.clarity-bar { grid-column: 1; grid-row: 2; align-self: center; height: 12px; background: var(--blush); position: relative; }
+.clarity-bar i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--ink); transition: width .6s var(--ease), background .4s; }
+.clarity-bar i.great { background: var(--pink); }
+.checks { list-style: none; margin: 0 0 22px; padding: 0; border-top: 1.5px solid var(--ink); }
+.checks li { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(13, 12, 13, .15); font-size: 17px; letter-spacing: -.03em; transition: color .3s; }
+.checks li::before { content: "○"; font-size: 14px; }
+.checks li.ok::before { content: "✶"; color: var(--pink); }
+.checks li span { font-family: var(--mono); font-size: 10px; letter-spacing: .02em; text-transform: uppercase; color: var(--graphite); }
+.checks li.ok { color: var(--ink); }
+.checks li:not(.ok) { color: var(--graphite); }
+.cp-label { margin: 30px 0 10px; color: var(--graphite); }
+.cats { display: flex; flex-wrap: wrap; gap: 8px; }
+.cat { font-size: 14px; letter-spacing: -.02em; padding: 6px 14px; border: 1.5px solid var(--ink); border-radius: 999px; background: none; transition: background .3s, color .3s, scale .3s var(--ease); }
+.cat:hover { background: var(--blush); }
+.cat[aria-checked="true"] { background: var(--ink); color: var(--pink); scale: 1.06; }
+
+.seal-wrap { margin-top: 36px; display: flex; align-items: center; gap: 20px; }
+.seal-wrap .mono { margin: 0; color: var(--graphite); max-width: 20ch; }
+.seal { position: relative; flex: none; width: 132px; height: 132px; border-radius: 50%; border: 0; background: var(--pink); display: grid; place-items: center; touch-action: none; user-select: none; -webkit-user-select: none; transition: scale .3s var(--ease); }
+.seal:active { scale: .95; }
+.seal svg { position: absolute; inset: 0; width: 100%; height: 100%; rotate: -90deg; }
+.seal circle { fill: none; stroke: rgba(13, 12, 13, .15); stroke-width: 6; }
+.seal .seal-ring { stroke: var(--ink); stroke-dasharray: 339.3; stroke-dashoffset: 339.3; }
+.seal span { position: relative; width: 84px; text-align: center; font-weight: 600; font-size: 15px; line-height: 1.05; letter-spacing: -.03em; }
+.seal.nope { animation: shake .4s; }
+
+/* the folding letter becomes a seal, the seal becomes a star */
+.flying-seal { position: fixed; z-index: 92; width: 56px; height: 56px; margin: -28px 0 0 -28px; display: grid; place-items: center; background: var(--pink); outline: 2px dashed var(--paper); outline-offset: -6px; pointer-events: none; }
+.flying-seal svg { width: 60%; height: 60%; fill: var(--lime); stroke: var(--ink); stroke-width: .8; }
+
+/* =========================================================
+   02 · YOUR SKY — pannable world
+   ========================================================= */
+.mysky { position: relative; background: var(--ink); color: var(--paper); padding: clamp(90px, 11vw, 150px) 0 0; }
+.mysky .kicker b { background: var(--pink); color: var(--ink); }
+.sky-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; flex-wrap: wrap; padding: 0 var(--gutter); margin-bottom: 30px; }
+.sky-top .h-big { color: var(--pink); margin: 0; }
+.sky-stats { margin: 0; color: var(--blush); text-align: right; }
+.sky-stats span { color: var(--lime); }
+.world { position: relative; height: min(80vh, 760px); border-top: 1px solid rgba(255, 79, 216, .3); touch-action: pan-y; cursor: grab; }
+.world:active { cursor: grabbing; }
+.world canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.world-hud { position: absolute; left: var(--gutter); bottom: 14px; display: flex; gap: 24px; color: var(--pink); font-size: 10px; pointer-events: none; }
+.tip { position: absolute; z-index: 3; pointer-events: none; max-width: 260px; padding: 8px 12px; background: var(--paper); color: var(--ink); font-size: 14px; letter-spacing: -.02em; line-height: 1.25; translate: 14px -50%; box-shadow: 4px 4px 0 var(--pink); }
+.tip b { display: block; font-weight: 600; }
+.tip span { font-family: var(--soft); font-style: italic; font-size: 16px; }
+
+.win { position: fixed; z-index: 98; left: 50%; top: 50%; width: min(380px, calc(100vw - 32px)); translate: -50% -50%; background: var(--paper); color: var(--ink); border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--pink); }
+.win-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px 6px 12px; background: var(--pink); border-bottom: 2px solid var(--ink); font-family: var(--mono); font-size: 11px; letter-spacing: .04em; cursor: move; touch-action: none; user-select: none; }
+.win-btns { display: flex; gap: 4px; }
+.win-btns button { width: 22px; height: 20px; border: 1.5px solid var(--ink); background: var(--paper); font-family: var(--mono); font-size: 12px; line-height: 1; padding: 0; }
+.win-btns button:hover { background: var(--ink); color: var(--pink); }
+.win-body { padding: 18px 18px 20px; }
+.win.min .win-body { display: none; }
+.win-name { margin: 0 0 6px; font-weight: 500; font-size: 30px; line-height: .95; letter-spacing: -.05em; }
+.win-wish { margin: 0 0 14px; font-family: var(--soft); font-style: italic; font-size: 20px; line-height: 1.2; }
+.win-facts { margin: 0 0 16px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .03em; }
+.win-facts div { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-bottom: 1px dashed rgba(13, 12, 13, .3); }
+.win-facts dd { margin: 0; font-weight: 700; text-align: right; }
+
+/* =========================================================
+   03 · RULES — cards stack as you scroll
+   ========================================================= */
+.rules { position: relative; background: var(--pink); }
+.rules-pin { height: 100vh; height: 100svh; display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(24px, 5vw, 80px); align-items: center; padding: 80px var(--gutter) 40px; overflow: hidden; }
+.rules-title { margin: 0 0 20px; font-weight: 500; font-size: clamp(44px, 6vw, 96px); line-height: .9; letter-spacing: -.06em; }
+.rules-count { margin: 0 0 26px; font-family: var(--pixel); font-size: 56px; line-height: .8; }
+.rules-count b { font-weight: 400; }
+.rules-grid { width: min(300px, 70%); }
+.deck-cards { position: relative; height: min(64vh, 560px); }
+.rule {
+  position: absolute; inset: 0; padding: clamp(22px, 3vw, 40px); background: var(--paper);
+  display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 30px 60px -30px rgba(13, 12, 13, .5);
+  will-change: transform;
+}
+.rule:nth-child(3n+2) { background: var(--ink); color: var(--pink); }
+.rule:nth-child(3n) { background: var(--lime); }
+.rule .rule-n { margin: 0; max-width: none; font-family: var(--pixel); font-size: clamp(110px, 14vw, 200px); line-height: .7; }
+.rule h3 { margin: 0 0 12px; font-weight: 500; font-size: clamp(30px, 3.4vw, 54px); line-height: .92; letter-spacing: -.055em; }
+.rule p { margin: 0; max-width: 34ch; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.35; letter-spacing: -.015em; }
+.rule .sticker { --s: 34px; top: 26px; right: 26px; }
+
+/* =========================================================
+   04 · MAGIC MINUTES + DANDELION
+   ========================================================= */
+.magic { position: relative; background: var(--paper); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); padding: clamp(90px, 11vw, 150px) var(--gutter); }
+.magic.is-magic { background: var(--lime); }
+.magic-banner { margin: 0 0 10px; display: inline-block; padding: 6px 14px; background: var(--ink); color: var(--lime); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; animation: blink .8s steps(1) infinite; }
+.clock { margin: 0 0 22px; font-family: var(--pixel); font-size: clamp(110px, 15vw, 230px); line-height: .75; letter-spacing: -.02em; }
+.clock span { font-size: .4em; color: var(--pink); }
+.magic-list { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
+.magic-list li { display: grid; grid-template-columns: 7ch 1fr auto auto; gap: 14px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid rgba(13, 12, 13, .15); font-size: 18px; letter-spacing: -.03em; }
+.magic-list time { font-family: var(--pixel); font-size: 30px; line-height: .8; letter-spacing: 0; }
+.magic-list .in { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.magic-list li.next { color: var(--pink); }
+.magic-list li.next time { background: var(--ink); color: var(--pink); padding: 0 6px; }
+.dandelion { position: relative; display: flex; flex-direction: column; }
+.dandelion canvas { width: 100%; aspect-ratio: 1; display: block; background: var(--blush); touch-action: pan-y; }
+.dande-copy { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+.dande-copy .mono { margin: 0; }
+.dande-count { margin: 0; font-size: 18px; letter-spacing: -.03em; }
+.dande-count b { font-family: var(--pixel); font-weight: 400; font-size: 32px; }
+
+/* =========================================================
+   05 · OUTRO
+   ========================================================= */
+.w-outro { position: relative; display: grid; grid-template-columns: auto 1fr; gap: clamp(30px, 6vw, 100px); align-items: center; padding: clamp(90px, 11vw, 150px) var(--gutter); background: var(--pink); overflow: hidden; }
+.outro-grid { width: calc(var(--cell) * 3.4); }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 980px) {
+  .cp-body, .magic { grid-template-columns: 1fr; }
+  .rules-pin { grid-template-columns: 1fr; grid-template-rows: auto 1fr; align-items: start; padding-top: 90px; }
+  .rules-grid { display: none; }
+  .rules-count { margin-bottom: 0; }
+  .deck-cards { height: min(56vh, 480px); }
+}
+@media (max-width: 760px) {
+  .w-hero { grid-template-columns: 1fr; }
+  .star-grid { --c: 11vw; justify-self: start; }
+  .next-magic { text-align: left; }
+  .w-outro { grid-template-columns: 1fr; }
+  .letter::before { left: 18px; }
+  .letter-stamp { width: 42px; height: 50px; top: 40px; }
+  .letter-date { padding-right: 56px; text-align: left; }
+  .seal-wrap { flex-direction: column; align-items: flex-start; }
+}
+
+.ml-remind { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid currentColor; background: none; font-size: 14px; line-height: 1; padding: 0; transition: background .3s, scale .3s var(--ease); }
+.ml-remind:hover { background: var(--pink); scale: 1.1; }
+.magic-remind { margin-top: 24px; }
+.magic-note { margin: 10px 0 0; color: var(--graphite); }

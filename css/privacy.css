@@ -1,0 +1,67 @@
+/* =========================================================
+   STARDUST.FM — privacy.css
+   ========================================================= */
+
+/* 00 · hero */
+.pv-hero { position: relative; min-height: 92vh; min-height: 92svh; display: grid; grid-template-columns: 1fr auto; gap: clamp(30px, 6vw, 100px); align-items: center; padding: calc(90px + 2vh) var(--gutter) 60px; overflow: hidden; }
+.pv-title { margin: 0 0 26px; font-weight: 500; font-size: clamp(52px, 8vw, 136px); line-height: .88; letter-spacing: -.065em; }
+.pv-title .line { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
+.pv-title .line > span { display: block; }
+.pv-title .soft { letter-spacing: -.03em; }
+.pv-count { display: flex; align-items: center; gap: 14px; margin: 0; font-size: 18px; line-height: 1.1; letter-spacing: -.03em; }
+.pv-count b { font-family: var(--pixel); font-weight: 400; font-size: clamp(90px, 10vw, 150px); line-height: .75; }
+.pv-grid { width: calc(var(--cell) * 5); }
+
+/* 01 · the memory sky */
+.memsky { background: var(--ink); color: var(--paper); padding: clamp(90px, 10vw, 140px) var(--gutter); }
+.memsky .kicker b { background: var(--pink); color: var(--ink); }
+.memsky .h-big { color: var(--pink); }
+.memsky .lead { color: var(--blush); }
+.ms-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
+.ms-head .lead { margin: 0; max-width: 40ch; }
+.ms-body { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(20px, 3vw, 40px); align-items: start; }
+.ms-sky { position: relative; aspect-ratio: 16 / 10; border: 1px solid rgba(255, 79, 216, .4); cursor: pointer; }
+.ms-sky canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ms-empty { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; margin: 0; font-size: clamp(28px, 3vw, 44px); letter-spacing: -.05em; line-height: 1; color: var(--pink); pointer-events: none; }
+.ms-card { position: sticky; top: 90px; padding: 22px; background: var(--paper); color: var(--ink); box-shadow: 8px 8px 0 var(--pink); min-height: 280px; }
+.ms-card .mono { margin: 0; color: var(--graphite); }
+.ms-name { margin: 6px 0 10px; font-weight: 500; font-size: clamp(26px, 2.6vw, 38px); line-height: .95; letter-spacing: -.05em; }
+.ms-what { margin: 0 0 14px; font-size: 16px; line-height: 1.35; letter-spacing: -.015em; }
+.ms-val { margin: 0 0 16px; max-height: 160px; overflow: auto; padding: 10px 12px; background: var(--blush); font-family: var(--mono); font-size: 11px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+.ms-card .pill.solid::before { background: var(--pink); }
+.ms-list { margin-top: 26px; border-top: 1px solid rgba(255, 79, 216, .4); padding-top: 14px; }
+.ms-list summary { cursor: pointer; color: var(--pink); padding: 10px 0; }
+.ms-list ul { list-style: none; margin: 14px 0 0; padding: 0; columns: 2; column-gap: 40px; }
+.ms-list li { break-inside: avoid; display: flex; justify-content: space-between; gap: 14px; padding: 7px 0; border-bottom: 1px solid rgba(255, 255, 255, .1); font-size: 15px; letter-spacing: -.02em; }
+.ms-list li code { font-family: var(--mono); font-size: 10px; color: var(--blush); opacity: .7; }
+.ms-list li button { background: none; border: 1px solid var(--pink); color: var(--pink); border-radius: 999px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; padding: 8px 14px; }
+.ms-list li button:hover { background: var(--pink); color: var(--ink); }
+
+/* 02 · the small print */
+.print { background: var(--paper); padding: clamp(90px, 10vw, 140px) var(--gutter); }
+.articles { list-style: none; margin: 10px 0 0; padding: 0; border-top: 1.5px solid var(--ink); }
+.articles li { display: grid; grid-template-columns: 4ch minmax(0, 1fr) minmax(0, 1.4fr); gap: 20px clamp(20px, 3vw, 50px); align-items: baseline; padding: 22px 0; border-bottom: 1px solid rgba(13, 12, 13, .2); }
+.articles b { font-family: var(--pixel); font-weight: 400; font-size: 44px; line-height: .8; color: var(--pink); }
+.articles h3 { margin: 0; font-weight: 500; font-size: clamp(26px, 2.8vw, 44px); line-height: .95; letter-spacing: -.055em; }
+.articles p { margin: 0; font-size: 17px; line-height: 1.45; letter-spacing: -.015em; max-width: 60ch; }
+.articles code { font-family: var(--mono); font-size: .85em; background: var(--blush); padding: 1px 5px; }
+
+/* 03 · forget everything */
+.forget { background: var(--pink); padding: clamp(90px, 10vw, 140px) var(--gutter); text-align: center; display: flex; flex-direction: column; align-items: center; }
+.hold { position: relative; width: 180px; height: 180px; margin: 20px 0 18px; border-radius: 50%; border: 0; background: var(--ink); color: var(--pink); display: grid; place-items: center; touch-action: none; user-select: none; -webkit-user-select: none; transition: scale .3s var(--ease); }
+.hold svg { position: absolute; inset: 0; width: 100%; height: 100%; rotate: -90deg; }
+.hold circle { fill: none; stroke: rgba(255, 79, 216, .25); stroke-width: 6; }
+.hold .hold-ring { stroke: var(--lime); stroke-dasharray: 339.3; stroke-dashoffset: 339.3; }
+.hold span { position: relative; width: 110px; font-weight: 600; font-size: 18px; line-height: 1.05; letter-spacing: -.03em; }
+.hold.nope { animation: shake .4s; }
+@keyframes shake { 20%, 60% { translate: -8px 0; } 40%, 80% { translate: 8px 0; } }
+.forget .mono { margin: 0; }
+
+@media (max-width: 980px) { .ms-body { grid-template-columns: 1fr; } .ms-card { position: relative; top: 0; } }
+@media (max-width: 760px) {
+  .pv-hero { grid-template-columns: 1fr; }
+  .pv-grid { width: 64vw; }
+  .ms-list ul { columns: 1; }
+  .articles li { grid-template-columns: 4ch 1fr; }
+  .articles p { grid-column: 2; }
+}

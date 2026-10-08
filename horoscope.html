@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>horoscope — STARDUST.FM</title>
+  <meta name="description" content="Spin the zodiac wheel, read today's sky for your sign, draw your own constellation and let the reader interpret it, see your week in squares and test a match.">
+  <meta name="theme-color" content="#ff4fd8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,800;0,900;1,500&family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/horoscope.css">
+</head>
+<body id="top" data-page="horoscope">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="star" viewBox="0 0 24 24"><path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ LOADER — tuning in ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-strips"></div>
+    <canvas class="ld-snow" id="ldSnow"></canvas>
+    <div class="ld-inner">
+      <p class="ld-top mono"><span>stardust.fm / horoscope</span><span id="ldMsg">untangling the antenna</span><span class="ld-air" id="ldAir">on air</span></p>
+      <p class="ld-freq"><span id="ldFreq">87.5</span><small>MHz</small></p>
+      <div class="ld-band"><div class="ld-ticks" id="ldTicks"></div><i class="ld-needle" id="ldNeedle"></i></div>
+    </div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <canvas class="glitter" id="glitter" aria-hidden="true"></canvas>
+  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="topnav" id="topnav">
+    <a class="nav-logo" href="index.html" id="navLogo" aria-label="STARDUST.FM — home">stardust.fm<svg class="nav-star"><use href="#star"/></svg></a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><span data-t="Home">Home</span></a></li>
+        <li><a href="wish.html"><span data-t="Make a wish">Make a wish</span></a></li>
+        <li><a href="radio.html"><span data-t="Radio">Radio</span></a></li>
+        <li><a href="horoscope.html" aria-current="page"><span data-t="Horoscope">Horoscope</span></a></li>
+        <li><a href="posters.html"><span data-t="Posters">Posters</span></a></li>
+      </ul>
+    </nav>
+    <div class="tuner-mini" aria-label="Tuned to">
+      <span class="onair"><i></i>on air</span>
+      <b id="navFreq">88.8</b><span class="mono">MHz</span>
+      <span class="eq"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <a class="pill solid nav-cta" href="#reader" data-magnetic data-cursor="draw">Draw a sky <span class="arrow">✶</span></a>
+    <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+  </header>
+  <div class="menu" id="menu" aria-hidden="true">
+    <button class="pill menu-close" id="menuClose">close ×</button>
+  </div>
+
+  <main>
+
+    <!-- ============ 00 · THE WHEEL ============ -->
+    <section class="h-hero" id="wheelSec">
+      <div class="h-hero-copy">
+        <p class="kicker">00 · <b>today's sky</b> · <span id="hDate">—</span></p>
+        <h1 class="h-title" id="hTitle">
+          <span class="line"><span>what's your</span></span>
+          <span class="line"><span class="soft">sign, star?</span></span>
+        </h1>
+        <p class="lead">Spin the wheel and let it land, tap a sign, or tell us your birthday and the sky will do the maths.</p>
+        <form class="bday" id="bday" autocomplete="off">
+          <label class="mono" for="bdDay">my birthday</label>
+          <div class="bday-row">
+            <input id="bdDay" inputmode="numeric" maxlength="2" placeholder="dd" aria-label="Day">
+            <span>/</span>
+            <input id="bdMonth" inputmode="numeric" maxlength="2" placeholder="mm" aria-label="Month">
+            <button class="pill solid" type="submit" data-magnetic data-cursor="spin">spin it <span class="arrow">↻</span></button>
+          </div>
+          <p class="mono bday-note">only used right here, to pick a sign · never saved</p>
+        </form>
+      </div>
+
+      <div class="wheel-wrap" id="wheelWrap" data-cursor="spin">
+        <i class="wheel-pointer" aria-hidden="true">▼</i>
+        <div class="wheel" id="wheel" role="listbox" aria-label="Zodiac wheel"></div>
+        <div class="pgrid wheel-core" id="wheelCore" data-img="HORO/hero.jpg" data-focus=".5,.3" data-label="HORO/hero.jpg" data-note="portrait, cosmic · 1:1"
+             data-map="00111100/01111110/11111111/11111111/11111111/11111111/01111110/00111100"></div>
+        <p class="wheel-sel mono" id="wheelSel">drag to spin</p>
+      </div>
+    </section>
+
+    <div class="tape" data-tape>
+      <div class="tape-track">
+        <span>mercury is distracted, you're not <b>✶</b> venus says text back <b>✶</b> the moon is on your side <b>✶</b> the stars are not deciding, they're suggesting <b>✶</b></span>
+      </div>
+    </div>
+
+    <!-- ============ 01 · THE READING ============ -->
+    <section class="reading-sec" id="reading">
+      <header class="rd-head">
+        <p class="kicker" data-scramble>01 · <b>the reading</b></p>
+        <div class="rd-title">
+          <span class="rd-glyph" id="rdGlyph">♌︎</span>
+          <div>
+            <h2 class="rd-name" id="rdName">leo</h2>
+            <p class="mono" id="rdMeta">jul 23 – aug 22 · fire · today</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="rd-body">
+        <div class="rd-col">
+          <p class="rd-text" id="rdText"></p>
+          <div class="meters" id="meters"></div>
+        </div>
+        <div class="rd-col">
+          <div class="dodont">
+            <div><p class="mono">do</p><ul id="rdDo"></ul></div>
+            <div><p class="mono">don't</p><ul id="rdDont"></ul></div>
+          </div>
+          <dl class="lucky" id="lucky">
+            <div><dt class="mono">lucky number</dt><dd id="lkNum">—</dd></div>
+            <div><dt class="mono">lucky colour</dt><dd><i class="swatch" id="lkSw"></i><span id="lkCol">—</span></dd></div>
+            <div><dt class="mono">your frequency</dt><dd><a id="lkFreq" href="radio.html" data-cursor="tune in">—</a></dd></div>
+            <div><dt class="mono">best match today</dt><dd id="lkMatch">—</dd></div>
+            <div><dt class="mono">say it</dt><dd id="lkAff">—</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="switch" id="switch" aria-label="Read another sign"></div>
+    </section>
+
+    <!-- ============ 02 · THE CONSTELLATION READER ============ -->
+    <section class="reader" id="reader">
+      <div class="reader-copy">
+        <p class="kicker" data-scramble>02 · <b>the constellation reader</b></p>
+        <h2 class="h-big" data-split>draw your own<br><span class="soft">constellation.</span></h2>
+        <p class="lead reveal">Click the stars to join them, one after the other. Close the shape if you like. Then let the reader look at what you drew — the angles, the gaps, the loops — and tell you what it means. It will also tell you which sign it looks like.</p>
+        <div class="reader-btns reveal">
+          <button class="pill solid" id="readIt" data-magnetic data-cursor="read">read my sky <span class="arrow">→</span></button>
+          <button class="pill" id="undo" data-cursor="undo">undo</button>
+          <button class="pill" id="clearSky" data-cursor="clear">clear</button>
+        </div>
+        <article class="verdict" id="verdict" hidden aria-live="polite">
+          <p class="mono">the reader says</p>
+          <p class="v-name" id="vName">—</p>
+          <p class="v-match" id="vMatch">—</p>
+          <ul class="v-lines" id="vLines"></ul>
+        </article>
+      </div>
+      <div class="drawsky" id="drawSky" data-cursor="connect">
+        <canvas id="drawCv" aria-label="A sky of stars you can connect by clicking"></canvas>
+        <p class="ds-hud mono" aria-hidden="true"><span id="dsCount">0 stars joined</span><span>click a star · click the first one to close</span></p>
+      </div>
+    </section>
+
+    <!-- ============ 03 · THE WEEK IN SQUARES ============ -->
+    <section class="week" id="week">
+      <div class="week-head">
+        <p class="kicker" data-scramble>03 · <b>the week in squares</b></p>
+        <h2 class="h-big" data-split>seven days,<br><span class="soft">measured in glitter.</span></h2>
+      </div>
+      <div class="week-grid" id="weekGrid"></div>
+      <p class="week-tip" id="weekTip">hover a day.</p>
+    </section>
+
+    <!-- ============ 04 · THE MATCH ============ -->
+    <section class="match" id="match">
+      <div class="match-copy">
+        <p class="kicker" data-scramble>04 · <b>the match</b></p>
+        <h2 class="h-big" data-split>who's your<br><span class="soft">person, tonight?</span></h2>
+        <div class="pickers">
+          <div class="picker" id="pickA"><button class="pk-prev" aria-label="Previous sign">◀</button><p><span class="pk-g"></span><span class="pk-n"></span></p><button class="pk-next" aria-label="Next sign">▶</button></div>
+          <span class="pk-plus">+</span>
+          <div class="picker" id="pickB"><button class="pk-prev" aria-label="Previous sign">◀</button><p><span class="pk-g"></span><span class="pk-n"></span></p><button class="pk-next" aria-label="Next sign">▶</button></div>
+        </div>
+        <button class="pill solid" id="testMatch" data-magnetic data-cursor="♥">test the match <span class="arrow">♥</span></button>
+        <p class="match-txt" id="matchTxt"></p>
+      </div>
+      <div class="heart-wrap">
+        <div class="pgrid heart" id="heart" data-img="HORO/match.jpg" data-focus=".6,.45" data-label="HORO/match.jpg" data-note="two people, or two hands · 1:1"
+             data-map="00110001100/01111011110/11111111111/11111111111/11111111111/01111111110/00111111100/00011111000/00001110000/00000100000"></div>
+        <p class="heart-pct"><b id="heartPct">0</b>%</p>
+      </div>
+    </section>
+
+    <!-- ============ 05 · OUTRO ============ -->
+    <section class="h-outro">
+      <div class="pgrid h-outro-grid" data-pop data-img="HORO/outro.jpg" data-focus=".45,.4" data-label="HORO/outro.jpg" data-note="stars, night · 3:4"
+           data-map="010/111/111/101"></div>
+      <div>
+        <p class="kicker" data-scramble>05 · <b>keep it close</b></p>
+        <h2 class="h-big" data-split>now put it<br><span class="soft">on your wall.</span></h2>
+        <p class="lead reveal">Today's sky, printed as a flyer. Pick one, change the words, pin it above your bed.</p>
+        <a class="pill solid" href="posters.html" data-magnetic data-cursor="pin">see the posters <span class="arrow">→</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER — LED board, schedule, request line ============ -->
+  <footer class="footer">
+    <div class="ft-led"><canvas id="led" role="img" aria-label="LED board: STARDUST.FM, on air 24/7, thank you for listening"></canvas></div>
+    <div class="ft-grid">
+      <div>
+        <p class="ft-kicker">tonight on stardust.fm</p>
+        <ol class="schedule" id="schedule"></ol>
+        <button class="remind-btn" type="button" data-remind="11:11" data-cursor="⏰">⏰ remind me at 11:11 <span>every day · adds to your calendar</span></button>
+      </div>
+      <div class="ft-request">
+        <p class="ft-kicker">request line</p>
+        <p>dedicate a song, a wish, a person.<br>it'll scroll up there, in lights.</p>
+        <form id="requestForm" class="request-row no-burst" autocomplete="off">
+          <label for="requestIn" class="sr-only">Your dedication</label>
+          <input id="requestIn" maxlength="40" placeholder="for my best friend ♥">
+          <button type="submit" data-cursor="on air">on air ↑</button>
+        </form>
+        <p class="mono">letters, numbers and ♥ only · 40 max</p>
+      </div>
+      <div>
+        <p class="ft-kicker">index</p>
+        <ul class="ft-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="wish.html">Make a wish</a></li>
+          <li><a href="radio.html">Radio</a></li>
+          <li><a href="horoscope.html">Horoscope</a></li>
+          <li><a href="posters.html">Posters</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© 2026 STARDUST.FM · a fictional radio · <a href="privacy.html">nothing leaves your browser</a></p>
+      <p class="ft-sign">concept, design &amp; code by <span class="script">ghostly.grl</span> ♥</p>
+      <a href="#top" class="rewind" data-cursor="rewind">◀◀ rewind</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/horoscope.js"></script>
+</body>
+  <!--
+   *    /\_/\      +
+       ( o.o )   <3  ghostly.grl
+   +    > ^ <          *
+-->
+</html>
